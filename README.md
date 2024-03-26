@@ -1,30 +1,37 @@
-# React + TypeScript + Vite
+# Sistema de Gestão para o Projeto ELLP
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Contexto
 
-Currently, two official plugins are available:
+A Universidade Tecnológica Federal do Paraná (UTFPR) abriga o projeto "ELLP - Ensino Lúdico de Lógica e Programação", destacando-se entre os 1.552 projetos de extensão ativos. A gestão eficiente deste projeto requer organização meticulosa, desde o arquivamento dos registros dos membros até o gerenciamento do banco de horas.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Justificativa
 
-## Expanding the ESLint configuration
+O armazenamento tradicional em papel dos documentos e do banco de horas relacionados a projetos de extensão na UTFPR tem levado a problemas de perda, desorganização e redundância de informações. A dificuldade em gerenciar efetivamente esses projetos afeta tanto alunos quanto docentes, com impacto direto no registro de horas de atividades extracurriculares.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Proposta
 
-- Configure the top-level `parserOptions` property like this:
+Propomos a implementação de um sistema de gestão de presença em tempo real, por meio de uma aplicação desktop e um Sistema Gerenciador de Banco de Dados (SGBD). Esse sistema permitirá que discentes e docentes monitorem as atividades do projeto ELLP digitalmente, facilitando o acompanhamento e a organização.
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+## Integrantes do grupo
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+- Vinicius Sussumu Vieira Ogawa
+- Pedro Henrique Ferreira Vinchi
+- Willian Gomes Zentil
+
+## Requisitos funcionais
+
+| Código | Descrição                                        |
+| ------ | ------------------------------------------------ |
+| RF01   | Cadastro de professores                          |
+| RF02   | Cadastro de oficinas                             |
+| RF03   | Autenticação de professores                      |
+| RF04   | Consultar e Alterar dados de professores         |
+| RF05   | Consultar e Alterar dados de oficinas            |
+| RF06   | Registro de Presença                             |
+| RF07   | Visualizar Histórico de Presença                 |
+| RF08   | Geração de certificados para os alunos presentes |
+| RF09   | Editar registros de presença                     |
+
+# Arquiteura do projeto
+
+![Arquitetura do Projeto](/arquitetura.png)
