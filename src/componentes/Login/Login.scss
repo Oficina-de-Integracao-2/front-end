@@ -1,0 +1,52 @@
+.container {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    margin: 0 auto;
+
+    .box {
+        display: flex;
+        padding: 100px;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        @media(min-width: 992px) {
+            height: 500px;
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        }
+    }
+
+    @media(min-width: 992px) {
+        max-width: 820px;
+    }
+}
+
+html, body, #root {
+    height: 100vh;
+}
+
+input {
+    width: 520px;
+    height: 37px;
+    margin: 10px 0;
+    padding: 0 20px;
+}
+
+button {
+    width: 560px;
+    height: 37px;
+    margin: 5px 0;
+    background-color: #7FBCEC;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.button {
+    margin-top: 20px;
+}
+
+h3 {
+    font-family: system-ui;
+    font-size: 24px;
+}
