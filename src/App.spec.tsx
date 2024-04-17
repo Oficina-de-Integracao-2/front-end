@@ -1,9 +1,11 @@
 import { render } from "@testing-library/react";
+import Login from "./componentes/Login/Login.tsx";
 import App from "./App.tsx";
-import React from "react";
 
-test("", () => {
-  const { getByText } = render(<App />);
+describe('Login Component', () => {
+  it('should render input', () => {
+    const { getByText } = render(<App/>)
 
-  expect(getByText("Hello world!")).toBeTruthy();
+    expect(getByText('Autenticação')).toBeInTheDocument();
+  });
 });
