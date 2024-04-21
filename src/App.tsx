@@ -1,21 +1,16 @@
-import ReactDOM from "react-dom/client";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import Login from "./componentes/Login/Login";
-import Cadastro from "./componentes/Cadastro/Cadastro";
+import Login from "./componentes/Login/Login.jsx";
+import Cadastro from "./componentes/Cadastro/Cadastro.jsx";
 
 function App() {
   return (
-    <>
-      <BrowserRouter>
-        <Routes>
-          <Route>
-            <Route path="/" element={<Login />} />
-            <Route path="Cadastro" element={<Cadastro />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/cadastro" element={<Cadastro />} />
+      </Routes>
+    </Router>
   );
 }
 
