@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useRef, useState, useEffect, useContext } from 'react';
 import AuthContext from '../../context/AuthProvider'
 import axios from '../../api/axios'
+import CadastroOficina from '../CadastroOficina/CadastroOficina';
 
 
 import './Login.scss'
@@ -42,6 +43,7 @@ function Login() {
             console.log(JSON.stringify(response?.data))
             // console.log(JSON.stringify(response))
             const acessToken = response?.data?.acessToken
+            localStorage.setItem("token", JSON.stringify(response?.data.access));
 
             setAuth({username, password, acessToken})
             setUser('')
@@ -65,13 +67,7 @@ function Login() {
     return (
         <>
             {sucess ? (
-                <section>
-                    <h1>Você esta logado</h1>
-                    <br />
-                    <p>
-                        <a href='#'>ir para home</a>
-                    </p>
-                </section>
+                <CadastroOficina />
             ) : (
                 <div className='container'>
                     <div className='box'>
@@ -79,7 +75,7 @@ function Login() {
                         <h3>Autenticação</h3>
                         <form onSubmit={handleSubmit}>
                             <input
-                                placeholder='E-mail'
+                                placeholder='Nome de Usuário'
                                 id='username'
                                 ref={userRef}
                                 onChange={(e) => setUser(e.target.value)}
