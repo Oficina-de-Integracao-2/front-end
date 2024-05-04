@@ -10,27 +10,36 @@ function CadastroOficina() {
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [errMsg, setErrMsg] = useState('')
-  const [token, setToken] = useState('')
   const [sucess, setSucess] = useState(false)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    setToken(localStorage.getItem("token"))
+    let tokenn = localStorage.getItem("token")
 
     try {
-      
-      const tokenSemAspas = token.replace(/^"(.*)"$/, '$1');
-      console.log('tokenSemAspas', tokenSemAspas)
 
-      const response = await axios.post(OFICINA_URL,
-        { title: title, description: description },
+      console.log('token', tokenn)
+      console.log('title', title)
+      console.log('description', description)
+
+      const response = await axios.post(
+        OFICINA_URL,
         {
-          authorization: `Bearer ${tokenSemAspas}`
+          title: title,
+          description: description,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${tokenn}`
+          }
         }
       );
-    
+
       setSucess(true)
+      setTitle('')
+      setDescription('')
+
     } catch (error) {
       if (!error?.response) {
         setErrMsg('no server response',)
@@ -50,6 +59,7 @@ function CadastroOficina() {
   return (
     <div className='section-cadastro'>
       <h1>Cadastro de Oficina</h1>
+      { sucess ? <h4>cadastro realizado</h4> : '  '}
       <form onSubmit={handleSubmit}>
         <p ref={errRef} className={errMsg ? 'errmsg' : 'offscreen'}>{errMsg}</p>
         <input

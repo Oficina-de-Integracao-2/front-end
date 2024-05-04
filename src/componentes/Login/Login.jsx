@@ -22,7 +22,7 @@ function Login() {
     const [sucess, setSucess] = useState('')
 
     useEffect(() => {
-      userRef.current.focus();
+        userRef.current.focus();
     }, [])
 
     useEffect(() => {
@@ -36,28 +36,34 @@ function Login() {
             const response = await axios.post(LOGIN_URL,
                 { username: username, password: password },
                 {
-                    headers: { 'Content-Type': 'application/json'},
+                    headers: {
+                        'Content-Type': 'application/json',
+                        "Access-Control-Allow-Origin": "*",
+                        "Access-Control-Allow-Headers": "Authorization",
+                        "Access-Control-Allow-Methods": "GET, POST, OPTIONS, PUT, PATCH, DELETE",
+                        "Content-Type": "application/json;charset=UTF-8"
+                    },
                     withCredentials: true
                 }
             );
             console.log(JSON.stringify(response?.data))
             // console.log(JSON.stringify(response))
             const acessToken = response?.data?.acessToken
-            localStorage.setItem("token", JSON.stringify(response?.data.access));
+            localStorage.setItem("token", response?.data.access);
 
-            setAuth({username, password, acessToken})
+            setAuth({ username, password, acessToken })
             setUser('')
             setPwd('')
             setSucess(true)
         } catch (error) {
-            if(!error?.response){
-                setErrMsg('no server response', )
+            if (!error?.response) {
+                setErrMsg('no server response',)
                 console.log('error', error)
-            }else if(error.response?.status === 400) {
+            } else if (error.response?.status === 400) {
                 setErrMsg('missing username or password')
-            }else if( error.response?.status === 401) {
+            } else if (error.response?.status === 401) {
                 setErrMsg('unaythorized')
-            }else {
+            } else {
                 setErrMsg('Login failed')
             }
             errRef.current.focus();
