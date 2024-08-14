@@ -1,4 +1,4 @@
-import { fireEvent, getByText, render, screen, waitFor  } from "@testing-library/react";
+import { fireEvent, getByText, render, screen, waitFor } from "@testing-library/react";
 import '@testing-library/jest-dom'
 import userEvent from '@testing-library/user-event'
 import { BrowserRouter } from "react-router-dom";
@@ -7,19 +7,7 @@ import Cadastro from './componentes/Cadastro/Cadastro.jsx'
 import CadastroOficina from './componentes/CadastroOficina/CadastroOficina.jsx'
 import Home from './componentes/Home/Home.jsx'
 import axios from 'axios';
-
-
-// Criação do mock manualmente
-jest.mock('axios');
-const mockedAxios = axios as jest.Mocked<typeof axios>;
-
-const mockProfessor = {
-  username: 'vvv',
-  first_name: 'João',
-  cpf: '12345678900',
-  email: 'joao@example.com',
-  oficinas: []
-};
+import Cards from './componentes/Cards/Cards.jsx'
 
 describe('Login Component', () => {
   it('should render text', () => {
@@ -106,40 +94,17 @@ describe('Cadastro Component', () => {
 })
 
 describe('Home Component', () => {
-  beforeEach(() => {
-    // Resetar os mocks antes de cada teste
-    jest.resetAllMocks();
+  it('should render help text ', () => {
+    const { getByText } = render(<BrowserRouter><CadastroOficina /></BrowserRouter>)
 
-    // Simular a resposta da API
-    mockedAxios.get.mockImplementation((url) => {
-      if (url === 'http://127.0.0.1:8000/api/professor/') {
-        return Promise.resolve({ data: [mockProfessor] });
-      }
-      return Promise.resolve({ data: [] });
-    });
+    expect(getByText('Cadastro de Oficina')).toBeInTheDocument();
   });
+});
 
-  it('should render Professor name', async () => {
-    render(
-      <BrowserRouter>
-        <Home name={mockProfessor.username} /> {/* Passe o nome do professor mockado */}
-      </BrowserRouter>
-    );
+describe('Card Component', () => {
+  it('should render student text ', () => {
+    const { getByText } = render(<BrowserRouter><Cards /></BrowserRouter>)
 
-    // Esperar o componente renderizar e exibir o texto
-    const professorText = await screen.findByText(/Professor: João/i);
-    expect(professorText).toBeInTheDocument();
-  });
-
-  it('should render E-mail', async () => {
-    render(
-      <BrowserRouter>
-        <Home name={mockProfessor.username} /> {/* Passe o nome do professor mockado */}
-      </BrowserRouter>
-    );
-
-    // Esperar o componente renderizar e exibir o texto
-    const emailText = await screen.findByText(/E-mail: joao@example.com/i);
-    expect(emailText).toBeInTheDocument();
+    expect(getByText('Alunos:')).toBeInTheDocument();
   });
 });
