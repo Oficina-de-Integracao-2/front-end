@@ -1,0 +1,162 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+h1,
+h2,
+h3,
+h4,
+h5,
+span,
+p,
+li {
+    font-family: "Inter", sans-serif;
+}
+
+html,
+body,
+#root {
+    // height: auto;
+    // min-height: 100vh;
+}
+
+.container {
+    display: flex;
+    align-items: flex-start;
+    margin: 0 auto;
+    padding: 40px;
+
+    @media(min-width: 992px) {
+        max-width: 1620px;
+    }
+}
+
+.light-gray {
+    background-color: #EDEFF1;
+}
+
+.container-logo {
+    display: flex;
+}
+
+.gray {
+    flex-direction: column;
+    height: auto;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-height: 161px;
+    width: 100%;
+    margin: 10px !important;
+}
+
+.container-infos {
+    display: flex;
+    flex-direction: column;
+    margin-left: 40px;
+    justify-content: center;
+
+    span {
+        color: #2E6EB6;
+        font-size: 18px;
+        font-weight: bold;
+    }
+}
+
+.container-actions {
+    img {
+        margin: 10px;
+    }
+}
+
+.menu {
+    align-items: flex-start;
+    padding: 0px !important;
+    width: 100%;
+    position: relative;
+    left: -48px;
+
+    a {
+        margin: 0 8px;
+        background-color: #EDEFF1;
+        padding: 16px 52px;
+        text-decoration: none;
+        font-size: 18px;
+        color: #2E6EB6;
+    }
+
+
+
+
+}
+
+.content {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 40px 0!important;
+    form {
+        padding: 20px 100px;
+
+        input,
+        textarea {
+            width: 100%
+        }
+
+        textarea {
+            margin-bottom: 30px;
+            height: 65px;
+            padding: 20px;
+            resize: none;
+        }
+    }
+
+    .content-buttons {
+        display: flex;
+
+        button {
+            margin-right: 20px;
+            font-weight: bolder;
+            font-size: 24px;
+        }
+
+        .btn-no {
+            background-color: #EC7F7F;
+        }
+    }
+}
+
+.content-cards {
+    display: flex;
+    flex-direction: column;
+    max-width: 1700px;
+    width: 100%;
+}
+
+.header {
+    h2 {
+        color: #2E6EB6;
+        font-size: 24px;
+    }
+}
+
+.modal>.header {
+    border-bottom: none !important;
+}
+
+.btn-submit {
+    background-color: #7FBCEC;
+    color: #fff;
+    font-weight: bolder;
+    text-transform: uppercase;
+    border: none;
+    width: 100%;
+}
+
+.gray.content-home {
+    // height: auto !important;
+}
+
+.edit-cadastro {
+    cursor: pointer;
+}

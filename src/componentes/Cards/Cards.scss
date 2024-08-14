@@ -1,0 +1,92 @@
+.card {
+    background-color: #EDEFF1;
+    color: #2E6EB6;
+    padding: 25px 38px;
+    margin-bottom: 40px;
+    max-width: 1620px;
+    display: flex;
+    min-width: 100%;
+
+    p {
+        max-width: 1400px;
+    }
+
+    h5 {
+        text-transform: uppercase;
+        font-family: "Inter";
+    }
+
+    .content-data {
+        display: flex;
+        flex-direction: column;
+        margin-right: 40px;
+        justify-content: center;
+        width: 200px;
+    }
+
+    .content-imgs {
+        display: flex;
+        justify-content: end;
+        position: absolute;
+        right: -37px;
+        top: -13px;
+
+        img {
+            cursor: pointer;
+            margin-right: 20px;
+        }
+    }
+
+    .content-description {
+        width: 100%;
+        position: relative;
+    }
+}
+
+.modal {
+    font-size: 12px;
+  }
+  .modal > .header {
+    width: 100%;
+    border-bottom: 1px solid gray;
+    font-size: 18px;
+    text-align: center;
+    padding: 5px;
+  }
+  .modal > .content {
+    width: 100%;
+    padding: 10px 5px;
+  }
+  .modal > .actions {
+    width: 100%;
+    padding: 10px 5px;
+    margin: auto;
+    text-align: center;
+  }
+  .modal > .close {
+    cursor: pointer;
+    position: absolute;
+    display: block;
+    padding: 2px 5px;
+    line-height: 20px;
+    right: -10px;
+    top: -10px;
+    font-size: 24px;
+    background: #ffffff;
+    border-radius: 18px;
+    border: 1px solid #cfcece;
+  }
+
+  .forms-presenca {
+    input {
+      width: -webkit-fill-available;
+    }
+
+    select {
+      width: -webkit-fill-available;
+      border: 1px solid #2E6EB6;
+      color: #2E6EB6;
+      padding-left: 10px;
+      height: 34px;
+    }
+  }

@@ -1,33 +1,31 @@
 import { Link } from 'react-router-dom';
 import { useRef, useState, useEffect, useContext } from 'react';
-import AuthContext from '../../context/AuthProvider'
-import axios from '../../api/axios'
-import CadastroOficina from '../CadastroOficina/CadastroOficina';
+import AuthContext from '../../context/AuthProvider';
+import axios from '../../api/axios';
+import Home from '../Home/Home';
 
+import './Login.scss';
+import logo from '../../Images/ELLP 1.png';
 
-import './Login.scss'
-import logo from '../../Images/ELLP 1.png'
-
-
-const LOGIN_URL = 'api/login/'
+const LOGIN_URL = 'api/login/';
 
 function Login() {
-    const { setAuth } = useContext(AuthContext)
-    const userRef = useRef()
-    const errRef = useRef()
+    const { setAuth } = useContext(AuthContext);
+    const userRef = useRef();
+    const errRef = useRef();
 
-    const [username, setUser] = useState('')
-    const [password, setPwd] = useState('')
-    const [errMsg, setErrMsg] = useState('')
-    const [sucess, setSucess] = useState('')
+    const [username, setUser] = useState('');
+    const [password, setPwd] = useState('');
+    const [errMsg, setErrMsg] = useState('');
+    const [sucess, setSucess] = useState(false);
 
     useEffect(() => {
         userRef.current.focus();
-    }, [])
+    }, []);
 
     useEffect(() => {
-        setErrMsg('')
-    }, [username, password])
+        setErrMsg('');
+    }, [username, password]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -41,30 +39,24 @@ function Login() {
                         "Access-Control-Allow-Origin": "*",
                         "Access-Control-Allow-Headers": "Authorization",
                         "Access-Control-Allow-Methods": "GET, POST, OPTIONS, PUT, PATCH, DELETE",
-                        "Content-Type": "application/json;charset=UTF-8"
                     },
                     withCredentials: true
                 }
             );
-            console.log(JSON.stringify(response?.data))
-            // console.log(JSON.stringify(response))
-            const acessToken = response?.data?.acessToken
-            localStorage.setItem("token", response?.data.access);
 
-            setAuth({ username, password, acessToken })
-            setUser('')
-            setPwd('')
-            setSucess(true)
+            const accessToken = response?.data?.access;
+            localStorage.setItem("token", accessToken);
+            setAuth({ username, password, accessToken });
+            setSucess(true);
         } catch (error) {
             if (!error?.response) {
-                setErrMsg('no server response',)
-                console.log('error', error)
+                setErrMsg('No server response');
             } else if (error.response?.status === 400) {
-                setErrMsg('missing username or password')
+                setErrMsg('Missing username or password');
             } else if (error.response?.status === 401) {
-                setErrMsg('unaythorized')
+                setErrMsg('Unauthorized');
             } else {
-                setErrMsg('Login failed')
+                setErrMsg('Login failed');
             }
             errRef.current.focus();
         }
@@ -73,10 +65,10 @@ function Login() {
     return (
         <>
             {sucess ? (
-                <CadastroOficina />
+                <Home name={username} />
             ) : (
-                <div className='container'>
-                    <div className='box'>
+                <div className='gray align-center'>
+                    <div className='box container'>
                         <img src={logo} alt="logo ellp" />
                         <h3>Autenticação</h3>
                         <form onSubmit={handleSubmit}>
@@ -101,13 +93,11 @@ function Login() {
                                 <button>Cadastro</button>
                             </Link>
                         </form>
-
                     </div>
                 </div>
-
             )}
         </>
     )
 }
 
-export default Login
+export default Login;

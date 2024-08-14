@@ -59,55 +59,58 @@ function Cadastro() {
     }
 
     return (
-        <div className='container'>
-            <div className='box'>
-                <form onSubmit={handleSubmit}>
-                    <img src={logo} alt="logo ellp" className='logo ellp' />
-                    <h3>Cadastro</h3>
-                    <p ref={errRef} className={errMsg ? 'errmsg' : 'offscreen'}>{errMsg}</p>
-                    <input
-                        placeholder='Nome de usuario'
-                        type="text"
-                        onChange={(e) => setUser(e.target.value)}
-                        value={username}
-                        required />
-                    <input
-                        placeholder='Primeiro nome'
-                        type="text"
-                        onChange={(e) => setFirst_name(e.target.value)}
-                        value={first_name}
-                        required />
-                    <input
-                        placeholder='Ultimo nome'
-                        type="text"
-                        onChange={(e) => setLast_name(e.target.value)}
-                        value={last_name}
-                        required />
-                    <input
-                        placeholder='E-mail'
-                        type="text"
-                        onChange={(e) => setEmail(e.target.value)}
-                        value={email}
-                        required />
-                    <input
-                        placeholder='CPF'
-                        type="text"
-                        onChange={(e) => setCpf(e.target.value)}
-                        value={cpf}
-                        required />
-                    <input
-                        placeholder='Senha'
-                        type="password"
-                        onChange={(e) => setPwd(e.target.value)}
-                        value={password}
-                        required />
-                    <button className='button'>Cadastrar</button>
-                    <Link to="/">
-                        <button>Login</button>
-                    </Link>
-                </form>
+        <div className='gray'>
+            <div className='container'>
+                <div className='box'>
+                    <form onSubmit={handleSubmit}>
+                        <img src={logo} alt="logo ellp" className='logo ellp' />
+                        <h3>Cadastro</h3>
+                        <p ref={errRef} className={errMsg ? 'errmsg' : 'offscreen'}>{errMsg}</p>
+                        <input
+                            placeholder='Nome de usuario'
+                            type="text"
+                            onChange={(e) => setUser(e.target.value)}
+                            value={username}
+                            required />
+                        <input
+                            placeholder='Primeiro nome'
+                            type="text"
+                            onChange={(e) => setFirst_name(e.target.value)}
+                            value={first_name}
+                            required />
+                        <input
+                            placeholder='Ultimo nome'
+                            type="text"
+                            onChange={(e) => setLast_name(e.target.value)}
+                            value={last_name}
+                            required />
+                        <input
+                            placeholder='E-mail'
+                            type="text"
+                            onChange={(e) => setEmail(e.target.value)}
+                            value={email}
+                            required />
+                        <input
+                            placeholder='CPF'
+                            type="text"
+                            onChange={(e) => setCpf(e.target.value)}
+                            value={cpf}
+                            required />
+                        <input
+                            placeholder='Senha'
+                            type="password"
+                            onChange={(e) => setPwd(e.target.value)}
+                            value={password}
+                            required />
+                        <button className='button'>Cadastrar</button>
+                        <Link to="/">
+                            <button>Login</button>
+                        </Link>
+                    </form>
+                </div>
             </div>
         </div>
+
     )
 }
 

@@ -1,0 +1,31 @@
+.cards-alunos {
+    border: 1px solid #2E6EB6;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    position: relative;
+
+    .content-alunos {
+        p {
+            color: #2E6EB6;
+            font-size: 16px;
+            margin: 10px 0 0 0;
+        }
+
+        & + div {
+            position: absolute;
+            top: 30%;
+            right: 25px;
+
+            img {
+                margin: 0 10px;
+                cursor: pointer;
+            }
+        }
+    } 
+}
+
+.content-cardss {
+    max-height: 400px;
+    overflow: auto;
+}

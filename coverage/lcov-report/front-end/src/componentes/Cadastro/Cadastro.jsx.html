@@ -176,7 +176,10 @@
 <a name='L111'></a><a href='#L111'>111</a>
 <a name='L112'></a><a href='#L112'>112</a>
 <a name='L113'></a><a href='#L113'>113</a>
-<a name='L114'></a><a href='#L114'>114</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L114'></a><a href='#L114'>114</a>
+<a name='L115'></a><a href='#L115'>115</a>
+<a name='L116'></a><a href='#L116'>116</a>
+<a name='L117'></a><a href='#L117'>117</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -246,11 +249,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -277,6 +275,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -350,55 +356,58 @@ function Cadastro() {
     }
 &nbsp;
     return (
-        &lt;div className='container'&gt;
-            &lt;div className='box'&gt;
-                &lt;form onSubmit={handleSubmit}&gt;
-                    &lt;img src={logo} alt="logo ellp" className='logo ellp' /&gt;
-                    &lt;h3&gt;Cadastro&lt;/h3&gt;
-                    &lt;p ref={errRef} className={errMsg ? <span class="branch-0 cbranch-no" title="branch not covered" >'errmsg' : '</span>offscreen'}&gt;{errMsg}&lt;/p&gt;
-                    &lt;input
-                        placeholder='Nome de usuario'
-                        type="text"
-                        onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setUser(e.target.value)}</span>
-                        value={username}
-                        required /&gt;
-                    &lt;input
-                        placeholder='Primeiro nome'
-                        type="text"
-                        onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setFirst_name(e.target.value)}</span>
-                        value={first_name}
-                        required /&gt;
-                    &lt;input
-                        placeholder='Ultimo nome'
-                        type="text"
-                        onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setLast_name(e.target.value)}</span>
-                        value={last_name}
-                        required /&gt;
-                    &lt;input
-                        placeholder='E-mail'
-                        type="text"
-                        onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setEmail(e.target.value)}</span>
-                        value={email}
-                        required /&gt;
-                    &lt;input
-                        placeholder='CPF'
-                        type="text"
-                        onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setCpf(e.target.value)}</span>
-                        value={cpf}
-                        required /&gt;
-                    &lt;input
-                        placeholder='Senha'
-                        type="password"
-                        onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setPwd(e.target.value)}</span>
-                        value={password}
-                        required /&gt;
-                    &lt;button className='button'&gt;Cadastrar&lt;/button&gt;
-                    &lt;Link to="/"&gt;
-                        &lt;button&gt;Login&lt;/button&gt;
-                    &lt;/Link&gt;
-                &lt;/form&gt;
+        &lt;div className='gray'&gt;
+            &lt;div className='container'&gt;
+                &lt;div className='box'&gt;
+                    &lt;form onSubmit={handleSubmit}&gt;
+                        &lt;img src={logo} alt="logo ellp" className='logo ellp' /&gt;
+                        &lt;h3&gt;Cadastro&lt;/h3&gt;
+                        &lt;p ref={errRef} className={errMsg ? <span class="branch-0 cbranch-no" title="branch not covered" >'errmsg' : '</span>offscreen'}&gt;{errMsg}&lt;/p&gt;
+                        &lt;input
+                            placeholder='Nome de usuario'
+                            type="text"
+                            onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setUser(e.target.value)}</span>
+                            value={username}
+                            required /&gt;
+                        &lt;input
+                            placeholder='Primeiro nome'
+                            type="text"
+                            onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setFirst_name(e.target.value)}</span>
+                            value={first_name}
+                            required /&gt;
+                        &lt;input
+                            placeholder='Ultimo nome'
+                            type="text"
+                            onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setLast_name(e.target.value)}</span>
+                            value={last_name}
+                            required /&gt;
+                        &lt;input
+                            placeholder='E-mail'
+                            type="text"
+                            onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setEmail(e.target.value)}</span>
+                            value={email}
+                            required /&gt;
+                        &lt;input
+                            placeholder='CPF'
+                            type="text"
+                            onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setCpf(e.target.value)}</span>
+                            value={cpf}
+                            required /&gt;
+                        &lt;input
+                            placeholder='Senha'
+                            type="password"
+                            onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setPwd(e.target.value)}</span>
+                            value={password}
+                            required /&gt;
+                        &lt;button className='button'&gt;Cadastrar&lt;/button&gt;
+                        &lt;Link to="/"&gt;
+                            &lt;button&gt;Login&lt;/button&gt;
+                        &lt;/Link&gt;
+                    &lt;/form&gt;
+                &lt;/div&gt;
             &lt;/div&gt;
         &lt;/div&gt;
+&nbsp;
     )
 }
 &nbsp;
@@ -409,7 +418,7 @@ export default Cadastro</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-04-28T17:22:42.056Z
+                at 2024-08-14T22:33:47.527Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>
