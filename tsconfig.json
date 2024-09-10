@@ -3,8 +3,10 @@
     "target": "ES2020",
     "useDefineForClassFields": true,
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "module": "ESNext",
+    "module": "commonjs",
     "skipLibCheck": true,
+    "allowJs": true,
+    "checkJs": false,
 
     /* Bundler mode */
     "moduleResolution": "NodeNext",
@@ -13,6 +15,7 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
+    "esModuleInterop": true,
 
     /* Linting */
     "strict": true,

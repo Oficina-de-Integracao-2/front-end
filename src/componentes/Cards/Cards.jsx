@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+// Cards.jsx
+import React, { useEffect, useState } from 'react';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import CadsAlunos from '../CadsAlunos/CadsAlunos';
@@ -17,13 +18,12 @@ function Cards(props) {
   const [hora, setHora] = useState('');
   const [alunoSelecionado, setAlunoSelecionado] = useState('');
   const [alunosOficina, setAlunosOficina] = useState([]); // Alunos cadastrados na oficina
-  const [todosAlunos, setTodosAlunos] = useState([]); // Todos os alunos disponíveis
-  const [alunosDisponiveis, setAlunosDisponiveis] = useState([]); // Alunos que não estão na oficina
+  const [alunos, setAlunos] = useState([]);
 
   useEffect(() => {
     fetchOficinaData();
     fetchAlunosData();
-    fetchTodosAlunos();
+    props.fetchTodosAlunos(); // Chama a função de Home para buscar todos os alunos
   }, [props.id]);
 
   const fetchOficinaData = async () => {
@@ -59,6 +59,36 @@ function Cards(props) {
     }
   };
 
+  const handleDeleteOficina = async (idOficina, close) => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.error('Token de autenticação não encontrado');
+      return;
+    }
+
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/api/oficina/${idOficina}/`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        console.log('Oficina excluída com sucesso');
+        props.onDelete(idOficina); // Atualiza o estado no componente pai
+        close(); // Fecha o modal
+      } else if (response.status === 403) {
+        console.error('Acesso proibido. Verifique suas permissões.');
+      } else {
+        console.error('Erro ao excluir a oficina');
+      }
+    } catch (error) {
+      console.error('Erro na requisição de exclusão:', error);
+    }
+  };
+
+
   const fetchAlunosData = async () => {
     try {
       const token = localStorage.getItem('token');
@@ -77,7 +107,6 @@ function Cards(props) {
       if (response.ok) {
         const data = await response.json();
         setAlunosOficina(data);
-        filterAlunosDisponiveis(todosAlunos, data);
       } else if (response.status === 403) {
         console.error('Acesso proibido. Verifique suas permissões.');
       } else {
@@ -88,39 +117,8 @@ function Cards(props) {
     }
   };
 
-  const fetchTodosAlunos = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        console.error('Token de autenticação não encontrado');
-        return;
-      }
-
-      const response = await fetch(`http://127.0.0.1:8000/api/aluno/`, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setTodosAlunos(data);
-        filterAlunosDisponiveis(data, alunosOficina);
-      } else if (response.status === 403) {
-        console.error('Acesso proibido. Verifique suas permissões.');
-      } else {
-        console.error('Erro ao carregar todos os alunos');
-      }
-    } catch (error) {
-      console.error('Erro na requisição:', error);
-    }
-  };
-
-  const filterAlunosDisponiveis = (todosAlunos, alunosOficina) => {
-    const idsAlunosOficina = alunosOficina.map(aluno => aluno.id);
-    const alunosNaoCadastrados = todosAlunos.filter(aluno => !idsAlunosOficina.includes(aluno.id));
-    setAlunosDisponiveis(alunosNaoCadastrados);
+  const handleDeleteAluno = (id) => {
+    setAlunosOficina(prevAlunos => prevAlunos.filter(aluno => aluno.id !== id));
   };
 
   const handleSavePresenca = async (e, close) => {
@@ -198,6 +196,13 @@ function Cards(props) {
     }
   };
 
+  const handleUpdateAluno = (id, updatedData) => {
+    setAlunos(prevAlunos =>
+      prevAlunos.map(aluno =>
+        aluno.id === id ? { ...aluno, ...updatedData } : aluno
+      )
+    );
+  };
 
   return (
     <div id={props.id} className='card'>
@@ -222,7 +227,16 @@ function Cards(props) {
                 <div className="content">
                   <div className='content-cardss'>
                     {alunosOficina.map((item) => (
-                      <CadsAlunos key={item.id} nome={item.nome} email={item.email} id={item.id} cpf={item.cpf} />
+                      <CadsAlunos
+                        key={item.id}
+                        nome={item.nome}
+                        email={item.email}
+                        id={item.id}
+                        cpf={item.cpf}
+                        onDelete={handleDeleteAluno}
+                        onUpdate={handleUpdateAluno}
+                        oficinaId={props.oficinaId} // Passa o id da oficina para CadsAlunos
+                      />
                     ))}
                   </div>
                   <div className='content-buttons'>
@@ -242,7 +256,7 @@ function Cards(props) {
                                 required
                               >
                                 <option value="">Selecione um aluno</option>
-                                {alunosDisponiveis.map(aluno => (
+                                {props.todosAlunos.map(aluno => (
                                   <option key={aluno.id} value={aluno.id}>{aluno.nome}</option>
                                 ))}
                               </select>
@@ -265,11 +279,18 @@ function Cards(props) {
           >
             {close => (
               <div className="modal">
-                <div className="header"><h2>Deseja realmente excluir esta oficina?</h2></div>
+                <div className="header"><h2>Excluir Oficina</h2></div>
                 <div className="content">
                   <div className='content-buttons'>
-                    <button>Sim</button>
-                    <button onClick={() => close()} className='btn-no'>Não</button>
+                    <button
+                      onClick={() => handleDeleteOficina(props.id, close)} // Chama a função de excluir
+                      className='btn-confirm'
+                    >
+                      Excluir
+                    </button>
+                    <button onClick={close} className='btn-cancel'>
+                      Cancelar
+                    </button>
                   </div>
                 </div>
               </div>
@@ -284,15 +305,51 @@ function Cards(props) {
           >
             {close => (
               <div className="modal">
-                <div className="header"><h2>Editar oficina</h2></div>
+                <div className="header"><h2>Editar Oficina</h2></div>
                 <div className="content">
-                  <form onSubmit={(e) => handleUpdateOficina(e, close)}>
-                    <input type="text" placeholder='Título' onChange={(e) => setTitle(e.target.value)} value={title} />
-                    <input type="text" placeholder='Descrição' onChange={(e) => setDescription(e.target.value)} value={description} />
-                    <input type="text" placeholder='Cidade' onChange={(e) => setCidade(e.target.value)} value={cidade} />
-                    <input type="text" placeholder='Carga Horária' onChange={(e) => setCargahora(e.target.value)} value={cargahora} />
-                    <input type="date" placeholder='Data' onChange={(e) => setData(e.target.value)} value={data} />
-                    <input type="time" placeholder='Hora' onChange={(e) => setHora(e.target.value)} value={hora} />
+                  <form className='forms-edit' onSubmit={(e) => handleUpdateOficina(e, close)}>
+                    <input
+                      type="text"
+                      placeholder="Título"
+                      value={title}
+                      onChange={(e) => setTitle(e.target.value)}
+                      required
+                    />
+                    <input
+                      type="text"
+                      placeholder="Descrição"
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                      required
+                    />
+                    <input
+                      type="text"
+                      placeholder="Cidade"
+                      value={cidade}
+                      onChange={(e) => setCidade(e.target.value)}
+                      required
+                    />
+                    <input
+                      type="text"
+                      placeholder="Carga Horária"
+                      value={cargahora}
+                      onChange={(e) => setCargahora(e.target.value)}
+                      required
+                    />
+                    <input
+                      type="text"
+                      placeholder="Data"
+                      value={data}
+                      onChange={(e) => setData(e.target.value)}
+                      required
+                    />
+                    <input
+                      type="text"
+                      placeholder="Hora"
+                      value={hora}
+                      onChange={(e) => setHora(e.target.value)}
+                      required
+                    />
                     <input type="submit" value="Salvar" className='btn-submit' />
                   </form>
                 </div>

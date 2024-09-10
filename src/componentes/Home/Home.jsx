@@ -1,13 +1,12 @@
-import { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import axios from '../../api/axios'; // Certifique-se de que o axios está configurado corretamente
 
 import './Home.scss';
-import logo from '../../Images/ELLP 1.png';
-import edit from '../../Images/edit.png';
-import sair from '../../Images/sair.png';
 import Cards from '../Cards/Cards';
+import Header from '../Header/Header';
+import Menu from '../Menu/Menu'
 
 const OFICINA_URL = 'http://127.0.0.1:8000/api/oficina/';
 const PROFESSOR_URL = 'http://127.0.0.1:8000/api/professor/';
@@ -32,6 +31,11 @@ function Home({ name }) {
         cpf: '',
         password: ''
     });
+    const [nome, setNome] = useState('');
+    const [cpf, setCpf] = useState('');
+    const [email, setEmail] = useState('');
+    const [todosAlunos, setTodosAlunos] = useState([]);
+
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -130,6 +134,89 @@ function Home({ name }) {
         }
     };
 
+    const fetchTodosAlunos = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                console.error('Token de autenticação não encontrado');
+                return;
+            }
+
+            const response = await fetch(`http://127.0.0.1:8000/api/aluno/`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                setTodosAlunos(data);
+            } else if (response.status === 403) {
+                console.error('Acesso proibido. Verifique suas permissões.');
+            } else {
+                console.error('Erro ao carregar todos os alunos');
+            }
+        } catch (error) {
+            console.error('Erro na requisição:', error);
+        }
+    };
+
+    const ALUNO_URL = 'http://127.0.0.1:8000/api/aluno/';
+
+    const handleSubmitAluno = async (e) => {
+        e.preventDefault();
+
+        let tokenn = localStorage.getItem("token");
+
+        try {
+            const response = await axios.post(
+                ALUNO_URL,
+                {
+                    nome: nome,  // Usando 'title' para o nome temporariamente, crie um estado separado para 'nome'
+                    cpf: cpf,  // Usando 'cargahora' temporariamente, crie um estado separado para 'cpf'
+                    email: email   // Usando 'cidade' temporariamente, crie um estado separado para 'email'
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${tokenn}`
+                    }
+                }
+            );
+
+            setSucess(true);
+            setNome('');
+            setCpf('');
+            setEmail('');
+
+            await fetchTodosAlunos();
+
+            // Atualize o estado para incluir o novo aluno
+            // Se houver listagem de alunos, adicione o novo aluno na lista.
+
+        } catch (error) {
+            if (!error?.response) {
+                setErrMsg('No server response');
+                console.log('error', error);
+            } else if (error.response?.status === 400) {
+                setErrMsg('Missing or invalid fields');
+            } else if (error.response?.status === 401) {
+                setErrMsg('Unauthorized');
+            } else {
+                setErrMsg('Failed to register');
+            }
+        }
+
+        if (props.atualizarTodosAlunos) {
+            props.atualizarTodosAlunos();
+        }
+    };
+
+    useEffect(() => {
+        fetchTodosAlunos(); // Carregar alunos ao montar o componente
+    }, []);
+
+
     const handleEditProfessor = async (e, close) => {
         e.preventDefault(); // Previne o comportamento padrão do formulário
 
@@ -182,113 +269,49 @@ function Home({ name }) {
         }
     };
 
+    const handleDeleteOficina = (idOficina) => {
+        setOficinas(prevOficinas => prevOficinas.filter(oficina => oficina.id !== idOficina));
+    };
 
     return (
         <div className='gray content-home'>
-            <header className='container light-gray'>
-                <div className='container-logo'>
-                    <img src={logo} alt="logo ellp" />
-                    {professor && (
-                        <div className='container-infos'>
-                            <span>Professor: {professor.first_name}</span>
-                            <span>CPF: {professor.cpf}</span>
-                            <span>E-mail: {professor.email}</span>
-                            {professor.oficinas?.length && <span>Oficinas: {professor.oficinas?.length}</span>}
-                        </div>
-                    )}
-                </div>
-                <div className='container-actions'>
-                    <Popup
-                        trigger={<img src={edit} alt="edit" className='edit-cadastro' />}
-                        modal
-                        nested
-                        onClose={() => setErrMsg('')} // Limpar mensagem de erro ao fechar o popup
-                    >
-                        {close => (
-                            <div className="modal">
-                                <div className="header"><h2>Editar Cadastro</h2></div>
-                                <div className="content">
-                                    <form onSubmit={(e) => handleEditProfessor(e, close)}>
-                                        <input
-                                            type="text"
-                                            placeholder='username'
-                                            value={editProfessor.username}
-                                            onChange={(e) => setEditProfessor({ ...editProfessor, username: e.target.value })}
-                                        />
-                                        <input
-                                            type="text"
-                                            placeholder='Nome'
-                                            value={editProfessor.first_name}
-                                            onChange={(e) => setEditProfessor({ ...editProfessor, first_name: e.target.value })}
-                                        />
-                                        <input
-                                            type="text"
-                                            placeholder='Ultimo Nome'
-                                            value={editProfessor.last_name}
-                                            onChange={(e) => setEditProfessor({ ...editProfessor, last_name: e.target.value })}
-                                        />
-                                        <input
-                                            type="email"
-                                            placeholder='E-mail'
-                                            value={editProfessor.email}
-                                            onChange={(e) => setEditProfessor({ ...editProfessor, email: e.target.value })}
-                                        />
-                                        <input
-                                            type="text"
-                                            placeholder='CPF'
-                                            value={editProfessor.cpf}
-                                            onChange={(e) => setEditProfessor({ ...editProfessor, cpf: e.target.value })}
-                                        />
-                                        <input
-                                            type="password"
-                                            placeholder='Senha'
-                                            value={editProfessor.password}
-                                            onChange={(e) => setEditProfessor({ ...editProfessor, password: e.target.value })}
-                                        />
-                                        <input
-                                            type="submit"
-                                            value="Salvar"
-                                            className='btn-submit'
-                                        />
-                                    </form>
-                                </div>
-                            </div>
-                        )}
-                    </Popup>
+            <Header
+                professor={professor}
+                editProfessor={editProfessor}
+                setEditProfessor={setEditProfessor}
+                handleEditProfessor={handleEditProfessor}
+            />
 
-                    <a href="/"><img src={sair} alt="sair" /></a>
-                </div>
-            </header>
-            <div className='menu container'>
-                <Popup
-                    trigger={<a href="#">Criar oficina</a>}
-                    modal
-                    nested
-                >
-                    {close => (
-                        <div className="modal">
-                            <div className="header"><h2>Cadastrar Oficina </h2></div>
-                            <div className="content">
-                                <form onSubmit={handleSubmit}>
-                                    <input type="text" placeholder='Título' onChange={(e) => setTitle(e.target.value)} value={title} required />
-                                    <input type="number" placeholder='Carga horária' onChange={(e) => setCargahora(e.target.value)} value={cargahora} required />
-                                    <input type="text" placeholder='Cidade de realizacao' onChange={(e) => setCidade(e.target.value)} value={cidade} required />
-                                    <input type="date" placeholder='Data de realizacao' onChange={(e) => setData(e.target.value)} value={data} required />
-                                    <input type="time" placeholder='Horario de realizacao' onChange={(e) => setHora(e.target.value)} value={hora} required />
-                                    <textarea type="text" placeholder='Descricao' onChange={(e) => setDescription(e.target.value)} value={description} required />
-                                    <input type="submit" value="Cadastrar" className='btn-submit' />
-                                </form>
-                            </div>
-                        </div>
-                    )}
-                </Popup>
-                <a href="#">Gerar Certificado</a>
-                <a href="#">Cadastrar Aluno</a>
-            </div>
+            <Menu
+                handleSubmit={handleSubmit}
+                handleSubmitAluno={handleSubmitAluno}
+                setTitle={setTitle}
+                setCidade={setCidade}
+                setCargahora={setCargahora}
+                setData={setData}
+                setHora={setHora}
+                setDescription={setDescription}
+                title={title}
+                cidade={cidade}
+                cargahora={cargahora}
+                data={data}
+                hora={hora}
+                description={description}
+                nome={nome}
+                setNome={setNome}
+                cpf={cpf}
+                setCpf={setCpf}
+                email={email}
+                setEmail={setEmail}
+                fetchTodosAlunos={fetchTodosAlunos} // Passar função para buscar alunos
+                todosAlunos={todosAlunos} // Passar a lista de alunos
+            />
+
             <div className='container content-cards'>
                 {oficinas.map((item) => (
                     <Cards
                         key={item.id}
+                        oficinaId={item.id}
                         id={item.id}
                         title={item.title}
                         prof={item.professor.first_name}
@@ -297,6 +320,9 @@ function Home({ name }) {
                         description={item.description}
                         hora={item.workload}
                         onEdit={handleEditOficina}
+                        todosAlunos={todosAlunos}
+                        fetchTodosAlunos={fetchTodosAlunos}
+                        onDelete={handleDeleteOficina}
                     />
                 ))}
             </div>

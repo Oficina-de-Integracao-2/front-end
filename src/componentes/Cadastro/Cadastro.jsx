@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect, useContext } from 'react';
+import React, { useRef, useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import './Cadastro.scss'
 import axios from '../../api/axios'
